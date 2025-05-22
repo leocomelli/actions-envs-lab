@@ -6,17 +6,17 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy:
-    name: Deploy
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 10
-
-      - id: reusable-cd
-        uses: './.github/actions/cd'
-        with:
-          environment: dev
+  dev-deploy:
+    uses: ./.github/workflows/cd-reusable.yml
+    with:
+      environment: dev
+  hom-deploy:
+    needs: dev-deploy
+    uses: ./.github/workflows/cd-reusable.yml
+    with:
+      environment: hom
+  prod-deploy:
+    needs: hom-deploy
+    uses: ./.github/workflows/cd-reusable.yml
+    with:
+      environment: prod
