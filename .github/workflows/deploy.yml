@@ -1,8 +1,5 @@
 name: Deployment
 on: 
-  push:
-    branches:
-      - 'release**'
   workflow_dispatch:
 
 jobs:
