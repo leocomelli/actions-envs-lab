@@ -1,19 +1,17 @@
-name: Verify
+name: Check PR Branch
 
 on:
   pull_request:
     branches:
       - main
-
 jobs:
-  check-branch:
+  check-pr-branch:
     runs-on: ubuntu-latest
     steps:
-      - name: Fail if branch starts with "fail"
+      - name: Fail if PR branch starts with "fail"
         run: |
-          echo "Branch: ${{ github.ref }}"
-          BRANCH_NAME="${GITHUB_REF##*/}"
-          echo "Parsed branch name: $BRANCH_NAME"
+          echo "PR source branch: ${{ github.head_ref }}"
+          BRANCH_NAME="${{ github.head_ref }}"
 
           if [[ "$BRANCH_NAME" == fail* ]]; then
             echo "Branch starts with 'fail'. Exiting with code 1."
