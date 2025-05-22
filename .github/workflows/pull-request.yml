@@ -1,0 +1,24 @@
+name: Verify
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail if branch starts with "fail"
+        run: |
+          echo "Branch: ${{ github.ref }}"
+          BRANCH_NAME="${GITHUB_REF##*/}"
+          echo "Parsed branch name: $BRANCH_NAME"
+
+          if [[ "$BRANCH_NAME" == fail* ]]; then
+            echo "Branch starts with 'fail'. Exiting with code 1."
+            exit 1
+          else
+            echo "Branch does not start with 'fail'. Exiting with code 0."
+            exit 0
+          fi
